@@ -1,7 +1,7 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import { type Theme } from "@mui/material";
 
-// @todo fix this type issue 
+// @ts-expect-error @todo fix this type issue
 const common: Omit<Theme, 'palette'> = {
   components: {
     MuiButton: {
