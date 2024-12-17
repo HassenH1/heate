@@ -1,5 +1,9 @@
 import { CircularProgress, CssBaseline, ThemeProvider } from "@mui/material";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import {
   FacilitySignup,
@@ -11,22 +15,28 @@ import {
 import { useThemePaletteMode } from "./context/ThemePaletteMode/ThemePaletteMode";
 
 const router = createBrowserRouter([
-  { path: "login", Component: Login },
   {
-    path: "signup",
+    path: "/",
     children: [
-      { index: true, Component: Signup },
+      { index: true, element: <Navigate to="/login" replace /> },
+      { index: true, path: "login", Component: Login },
       {
-        path: "healthcare-wellness-specialists",
+        path: "signup",
         children: [
-          { index: true, Component: ProfessionalSignup },
-          { path: "application", Component: ProfessionalSignupApplication },
+          { index: true, Component: Signup },
+          {
+            path: "healthcare-wellness-specialists",
+            children: [
+              { index: true, Component: ProfessionalSignup },
+              { path: "application", Component: ProfessionalSignupApplication },
+            ],
+          },
+          { path: "medical-facility", Component: FacilitySignup },
         ],
       },
-      { path: "medical-facility", Component: FacilitySignup },
+      { path: "test", Component: Layout },
     ],
   },
-  { path: "test", Component: Layout },
 ]);
 
 const App = () => {
