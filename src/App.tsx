@@ -18,8 +18,8 @@ const router = createBrowserRouter([
   {
     path: "/",
     children: [
-      { index: true, element: <Navigate to="/login" replace /> },
-      { index: true, path: "login", Component: Login },
+      { index: true, element: <Navigate to="/login" replace /> }, // @todo change this when ready
+      { path: "login", Component: Login },
       {
         path: "signup",
         children: [

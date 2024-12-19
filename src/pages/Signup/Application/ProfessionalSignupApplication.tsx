@@ -140,7 +140,6 @@ const ProfessionalSignupApplication = () => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  // height: 50,
                   bgcolor: "background.default",
                 }}
               >
