@@ -1,7 +1,7 @@
 export { Login } from './Login/Login'
 
 export { Signup } from './Signup/Signup'
-export { ProfessionalSignup } from './Signup/ProfessionalSignup'
-export { FacilitySignup } from './Signup/FacilitySignup'
-export { ProfessionalSignupApplication } from './Signup/Application/ProfessionalSignupApplication'
-export { YourInformation } from './Signup/YourInformation'
+export { ProfessionalSignup } from './Signup/HealthcareWellnessSpecialists/ProfessionalSignup'
+export { FacilitySignup } from './Signup/MedicalFacility/FacilitySignup'
+export { Application } from './Signup/HealthcareWellnessSpecialists/Application/Application'
+export { YourInformation } from './Signup/HealthcareWellnessSpecialists/Application/YourInformation/YourInformation'

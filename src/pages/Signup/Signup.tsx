@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router";
 import { Users, Hospital } from "lucide-react";
+import Logo from "../../components/logo/Logo";
 
 function Signup() {
   const navigation = useNavigate();
@@ -23,9 +24,8 @@ function Signup() {
           flexDirection="column"
         >
           <Box flexGrow={1} display="flex" flexDirection="column">
-            <Container maxWidth="xs">
-              <img src="/logo.png" style={{ maxWidth: 200, marginTop: 30 }} />
-              {/* <img src="/logo.png" style={{ maxWidth: 256 }} /> */}
+            <Container maxWidth="xl" sx={{ marginTop: 2 }}>
+              <Logo />
             </Container>
 
             <Stack

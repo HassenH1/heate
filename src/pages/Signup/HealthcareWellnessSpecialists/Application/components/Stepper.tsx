@@ -26,7 +26,7 @@ function Stepper({ activeStep }: { activeStep: number }) {
                 stepIcon: CustomStepIcon,
               }}
             >
-              <Typography variant="subtitle2" style={{ fontWeight: 700 }}>
+              <Typography variant="body1" style={{ fontWeight: 700 }}>
                 {label}
               </Typography>
               <Typography variant="caption">
