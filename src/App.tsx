@@ -22,36 +22,35 @@ const router = createBrowserRouter(
       path: "/",
       children: [
         { index: true, element: <Navigate to="/login" replace /> },
-        { path: "login", Component: Login },
+        { path: "login", element: <Login /> },
         {
           path: "dashboard",
           Component: Layout,
           children: [
-            { index: true, Component: Dashboard },
-            { path: "settings", Component: () => <div>Settings page</div> },
+            { index: true, element: <Dashboard /> },
+            { path: "settings", element: <div>Settings page</div> },
           ],
         },
         {
           path: "signup",
           children: [
-            { index: true, Component: Signup },
+            {
+              index: true,
+              element: <Signup />,
+            },
             {
               path: "healthcare-wellness-specialists",
+              element: <SignupApplicationProvider />,
               children: [
-                { index: true, Component: ProfessionalSignup },
-                {
-                  path: "application",
-                  Component() {
-                    return (
-                      <SignupApplicationProvider>
-                        <Application />
-                      </SignupApplicationProvider>
-                    );
-                  },
-                },
+                { index: true, element: <ProfessionalSignup /> },
+                { path: "application", element: <Application /> },
               ],
             },
-            { path: "medical-facility", Component: FacilitySignup },
+            {
+              path: "medical-facility",
+              element: <SignupApplicationProvider />,
+              children: [{ index: true, element: <FacilitySignup /> }],
+            },
           ],
         },
       ],

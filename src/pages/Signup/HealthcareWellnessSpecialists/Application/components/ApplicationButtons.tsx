@@ -12,11 +12,14 @@ import { type UseFormHandleSubmit, type FieldValues } from "react-hook-form";
 
 function ApplicationButtons({
   handleSubmit,
+  values,
 }: {
   handleSubmit?: UseFormHandleSubmit<FieldValues>;
+  values?: Record<string, object>;
 }) {
   const theme = useTheme();
-  const { activeStep, handleBack, handleNext } = useApplication();
+  const { activeStep, handleBack, handleNext, setUserData, userData } =
+    useApplication();
   const isMaxBreakpointMd = useMediaQuery((theme) =>
     theme.breakpoints.down("md")
   );
@@ -24,10 +27,16 @@ function ApplicationButtons({
   const handleNextClick = () => {
     if (handleSubmit) {
       handleSubmit(handleNext)();
+      setUserData((prev) => ({
+        ...prev,
+        ...values,
+      }));
     } else {
       handleNext();
     }
   };
+
+  console.log("userData: ", userData);
 
   if (isMaxBreakpointMd) {
     return (
@@ -38,6 +47,7 @@ function ApplicationButtons({
         activeStep={activeStep}
         nextButton={
           <Button
+            type="button"
             size="medium"
             color="inherit"
             onClick={handleNextClick}
@@ -49,6 +59,7 @@ function ApplicationButtons({
         }
         backButton={
           <Button
+            type="button"
             size="medium"
             color="inherit"
             onClick={handleBack}
@@ -74,12 +85,13 @@ function ApplicationButtons({
         disabled={activeStep === 0}
         onClick={handleBack}
         variant="outlined"
+        type="button"
       >
         Back
       </Button>
       <Box>
         {activeStep > 0 && (
-          <Button color="info" sx={{ mr: 1 }}>
+          <Button color="info" sx={{ mr: 1 }} type="button">
             Save
           </Button>
         )}
@@ -87,6 +99,7 @@ function ApplicationButtons({
           onClick={handleNextClick}
           variant="contained"
           disabled={activeStep > steps.length - 1}
+          type="button"
         >
           Next
         </Button>

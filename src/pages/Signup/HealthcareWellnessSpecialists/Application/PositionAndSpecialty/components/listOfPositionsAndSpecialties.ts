@@ -1,6 +1,6 @@
 export enum Position {
   "LVN/LPN",
-  'Imagine services',
+  'Imaging services',
   'Registered nurse',
   'Physician assistant',
   'Certified Nursing Assistant',
@@ -10,7 +10,7 @@ export enum Position {
 
 export const positions: readonly { label: keyof typeof Position, id: number }[] = [
   { label: 'LVN/LPN', id: 1 },
-  { label: 'Imagine services', id: 2 },
+  { label: 'Imaging services', id: 2 },
   { label: 'Registered nurse', id: 3 },
   { label: 'Physician assistant', id: 4 },
   { label: 'Certified Nursing Assistant', id: 5 },

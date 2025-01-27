@@ -22,6 +22,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Logo from "../../../components/logo/Logo";
 import { positions } from "./Application/PositionAndSpecialty/components/listOfPositionsAndSpecialties";
+import { useApplication } from "../../../context/SignupApplication/SignupApplication";
 
 const schema = yup
   .object({
@@ -39,6 +40,7 @@ const schema = yup
   .required();
 
 const ProfessionalSignup = () => {
+  const { setUserData } = useApplication();
   const theme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -46,6 +48,7 @@ const ProfessionalSignup = () => {
     control,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -58,7 +61,13 @@ const ProfessionalSignup = () => {
 
   const handleClickShowPassword = () => setShowPassword((prev) => !prev);
 
-  const onSubmit = () => navigate("application");
+  const onSubmit = () => {
+    setUserData((prev) => ({
+      ...prev,
+      signup: getValues(),
+    }));
+    navigate("application");
+  };
 
   return (
     <Container maxWidth="xl">

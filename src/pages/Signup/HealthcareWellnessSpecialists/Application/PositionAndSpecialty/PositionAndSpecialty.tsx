@@ -38,11 +38,15 @@ import {
   type PositionAndSpecialtyType,
 } from "./components/schema";
 import ApplicationButtons from "../components/ApplicationButtons";
+import { useApplication } from "../../../../../context/SignupApplication/SignupApplication";
 
 function PositionAndSpecialty() {
+  const { userData } = useApplication();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const [data, setData] = useState<Array<PositionAndSpecialtyType>>([]);
+  const [data, setData] = useState<Array<PositionAndSpecialtyType>>(
+    userData.positionSpecialty ?? []
+  );
   const {
     control,
     handleSubmit,
@@ -60,10 +64,11 @@ function PositionAndSpecialty() {
     handleSubmit: dataHandleSubmit,
     formState: { errors: dataErrors },
     setValue,
+    getValues,
   } = useForm({
     resolver: yupResolver(dataSchema),
     defaultValues: {
-      positionSpecialty: [],
+      positionSpecialty: userData.positionSpecialty ?? [],
     },
   });
   const watchPosition = useWatch({ control, name: "position" });
@@ -72,20 +77,24 @@ function PositionAndSpecialty() {
   const handleClose = () => setOpen(false);
   const handleDelete = (selected: PositionAndSpecialtyType) => {
     const { position, specialty, yearsOfExperience } = selected;
-    const filteredData = data.filter(
-      (each) =>
-        each.position.label !== position.label ||
-        each.specialty.label !== specialty.label ||
-        each.yearsOfExperience !== yearsOfExperience
-    );
-    setData(filteredData);
+    setData((prev) => {
+      const filteredData = prev.filter(
+        (each: PositionAndSpecialtyType) =>
+          each.position.label !== position.label ||
+          each.specialty.label !== specialty.label ||
+          each.yearsOfExperience !== yearsOfExperience
+      );
+
+      setValue("positionSpecialty", filteredData);
+      return filteredData;
+    });
   };
   const handleDynamicOptions = () => {
     const { label } = watchPosition;
     switch (label) {
       case "LVN/LPN":
         return lpnLvnSpecialties;
-      case "Imagine services":
+      case "Imaging services":
         return imagingSpecialties;
       case "Registered nurse":
         return rnSpecialties;
@@ -106,6 +115,7 @@ function PositionAndSpecialty() {
       setValue("positionSpecialty", [...prev, data]);
       return [...prev, data];
     });
+
     handleClose();
     reset();
   };
@@ -131,38 +141,38 @@ function PositionAndSpecialty() {
           </Typography>
           .
         </Typography>
-        {data.length > 0 && (
-          <Stack spacing={2}>
-            {data.map((data, index) => (
-              <Paper
-                key={index}
-                square={false}
-                sx={{
-                  paddingX: 3,
-                  height: 100,
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Box display="flex" flexDirection="column">
-                  <Typography variant="body1" gutterBottom fontWeight={600}>
-                    {data.position.label}
-                  </Typography>
-                  <Typography variant="caption">
-                    {data.specialty.label}
-                  </Typography>
-                  <Typography variant="caption">
-                    {data.yearsOfExperience} of experience
-                  </Typography>
-                </Box>
-                <IconButton onClick={() => handleDelete(data)}>
-                  <CircleX color={theme.palette.error.main} />
-                </IconButton>
-              </Paper>
-            ))}
-          </Stack>
-        )}
+
+        <Stack spacing={2}>
+          {data.map((data: PositionAndSpecialtyType, index: number) => (
+            <Paper
+              key={index}
+              square={false}
+              sx={{
+                paddingX: 3,
+                height: 100,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Box display="flex" flexDirection="column">
+                <Typography variant="body1" gutterBottom fontWeight={600}>
+                  {data.position.label}
+                </Typography>
+                <Typography variant="caption">
+                  {data.specialty.label}
+                </Typography>
+                <Typography variant="caption">
+                  {data.yearsOfExperience} of experience
+                </Typography>
+              </Box>
+              <IconButton onClick={() => handleDelete(data)}>
+                <CircleX color={theme.palette.error.main} />
+              </IconButton>
+            </Paper>
+          ))}
+        </Stack>
+
         <Button
           variant="text"
           {...(theme.palette.mode === "dark" && { color: "secondary" })}
@@ -172,8 +182,12 @@ function PositionAndSpecialty() {
         >
           Add position/specialty
         </Button>
-        <ApplicationButtons handleSubmit={dataHandleSubmit} />
+        <ApplicationButtons
+          handleSubmit={dataHandleSubmit}
+          values={{ ...getValues() }}
+        />
       </Box>
+
       <Dialog
         open={open}
         fullWidth

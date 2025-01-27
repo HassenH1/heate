@@ -1,16 +1,13 @@
-import { createContext, useState, ReactNode, useContext } from "react";
-
-type SignupApplicationContextType = {
-  activeStep: number;
-  handleNext: () => void;
-  handleBack: () => void;
-};
+import { createContext, useState, useContext } from "react";
+import { Outlet } from "react-router";
+import { SignupApplicationContextType } from "./SignupApplication.types";
 
 const SignupApplicationContext =
   createContext<null | SignupApplicationContextType>(null);
 
-function SignupApplicationProvider({ children }: { children: ReactNode }) {
+function SignupApplicationProvider() {
   const [activeStep, setActiveStep] = useState(0);
+  const [userData, setUserData] = useState({});
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -22,9 +19,9 @@ function SignupApplicationProvider({ children }: { children: ReactNode }) {
 
   return (
     <SignupApplicationContext.Provider
-      value={{ handleNext, handleBack, activeStep }}
+      value={{ handleNext, handleBack, activeStep, setUserData, userData }}
     >
-      {children}
+      <Outlet />
     </SignupApplicationContext.Provider>
   );
 }

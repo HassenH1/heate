@@ -22,5 +22,16 @@ export const schema = yup.object({
 });
 
 export const dataSchema = yup.object({
-  positionSpecialty: yup.array().min(1).of(schema)
+  // positionSpecialty: yup.array().min(1).of(schema)
+  positionSpecialty: yup.array().min(1).of(yup.object({
+    position: yup.object().shape({
+      label: yup.string<Label>().required(),
+      id: yup.number().required()
+    }),
+    yearsOfExperience: yup.string().required(),
+    specialty: yup.object().shape({
+      label: yup.string().required(),
+      value: yup.string().required()
+    })
+  }))
 })

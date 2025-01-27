@@ -23,7 +23,7 @@ const Application = () => {
 
   const renderApplicationFlow = () => {
     switch (activeStep) {
-      case 0:
+      case 5:
         return <YourInformation />;
       case 1:
         return <Locations />;
@@ -33,9 +33,9 @@ const Application = () => {
         return <Experience />;
       case 4:
         return <LicensesCertifactions />;
-      case 5:
+      case 0:
         return (
-          <Box>
+          <Box border="1px solid red" height="100%">
             <Typography variant="body1">
               Gotta come up with better design here
             </Typography>

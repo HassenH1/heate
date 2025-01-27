@@ -1,16 +1,19 @@
-import { Box, Typography, TextField, Stack } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
+import { Box, Typography, TextField, Stack, FormControl } from "@mui/material";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./schema";
 import { PatternFormat } from "react-number-format";
 import ApplicationButtons from "../components/ApplicationButtons";
+import { useApplication } from "../../../../../context/SignupApplication/SignupApplication";
 
 // @todo fix error message margins
 const YourInformation = () => {
+  const { userData } = useApplication();
   const {
     control,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -24,7 +27,9 @@ const YourInformation = () => {
       state: "",
       zip: "",
     },
+    values: userData?.information,
   });
+  useWatch({ control });
 
   return (
     <Box
@@ -46,30 +51,34 @@ const YourInformation = () => {
           name="firstname"
           control={control}
           render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.firstname}
-              helperText={errors.firstname?.message}
-              label="First name"
-              variant="outlined"
-              fullWidth
-              required
-            />
+            <FormControl fullWidth focused>
+              <TextField
+                {...field}
+                error={!!errors.firstname}
+                helperText={errors.firstname?.message}
+                label="First name"
+                variant="outlined"
+                fullWidth
+                required
+              />
+            </FormControl>
           )}
         />
         <Controller
           name="lastname"
           control={control}
           render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.lastname}
-              helperText={errors.lastname?.message}
-              label="Last name"
-              variant="outlined"
-              fullWidth
-              required
-            />
+            <FormControl fullWidth>
+              <TextField
+                {...field}
+                error={!!errors.lastname}
+                helperText={errors.lastname?.message}
+                label="Last name"
+                variant="outlined"
+                fullWidth
+                required
+              />
+            </FormControl>
           )}
         />
       </Stack>
@@ -82,33 +91,37 @@ const YourInformation = () => {
           name="middlename"
           control={control}
           render={({ field }) => (
-            <TextField
-              {...field}
-              id="middlename"
-              label="Middle name"
-              variant="outlined"
-              fullWidth
-            />
+            <FormControl fullWidth>
+              <TextField
+                {...field}
+                id="middlename"
+                label="Middle name"
+                variant="outlined"
+                fullWidth
+              />
+            </FormControl>
           )}
         />
         <Controller
           name="birthday"
           control={control}
           render={({ field: { ref, ...rest } }) => (
-            <PatternFormat
-              format="##/##/####"
-              customInput={TextField}
-              variant="outlined"
-              fullWidth
-              required
-              id="birthday"
-              label="Birthday"
-              error={!!errors.birthday}
-              helperText={errors.birthday?.message}
-              mask="_"
-              inputRef={ref}
-              {...rest}
-            />
+            <FormControl fullWidth>
+              <PatternFormat
+                format="##/##/####"
+                customInput={TextField}
+                variant="outlined"
+                fullWidth
+                required
+                id="birthday"
+                label="Birthday"
+                error={!!errors.birthday}
+                helperText={errors.birthday?.message}
+                mask="_"
+                inputRef={ref}
+                {...rest}
+              />
+            </FormControl>
           )}
         />
       </Stack>
@@ -116,17 +129,19 @@ const YourInformation = () => {
         name="address"
         control={control}
         render={({ field }) => (
-          <TextField
-            {...field}
-            error={!!errors.address}
-            helperText={errors.address?.message}
-            id="address"
-            label="Address"
-            variant="outlined"
-            fullWidth
-            required
-            sx={{ mb: errors.address ? "9px" : 4 }}
-          />
+          <FormControl fullWidth>
+            <TextField
+              {...field}
+              error={!!errors.address}
+              helperText={errors.address?.message}
+              id="address"
+              label="Address"
+              variant="outlined"
+              fullWidth
+              required
+              sx={{ mb: errors.address ? "9px" : 4 }}
+            />
+          </FormControl>
         )}
       />
       <Stack
@@ -138,29 +153,33 @@ const YourInformation = () => {
           name="suite/apt"
           control={control}
           render={({ field }) => (
-            <TextField
-              {...field}
-              id="suite/apt"
-              label="Suite/Apt"
-              variant="outlined"
-              fullWidth
-            />
+            <FormControl fullWidth>
+              <TextField
+                {...field}
+                id="suite/apt"
+                label="Suite/Apt"
+                variant="outlined"
+                fullWidth
+              />
+            </FormControl>
           )}
         />
         <Controller
           name="zip"
           control={control}
           render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.zip}
-              helperText={errors.zip?.message}
-              id="zipcode"
-              label="Zip code"
-              variant="outlined"
-              fullWidth
-              required
-            />
+            <FormControl fullWidth>
+              <TextField
+                {...field}
+                error={!!errors.zip}
+                helperText={errors.zip?.message}
+                id="zipcode"
+                label="Zip code"
+                variant="outlined"
+                fullWidth
+                required
+              />
+            </FormControl>
           )}
         />
       </Stack>
@@ -173,32 +192,36 @@ const YourInformation = () => {
           name="city"
           control={control}
           render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.city}
-              helperText={errors.city?.message}
-              id="city"
-              label="City"
-              variant="outlined"
-              fullWidth
-              required
-            />
+            <FormControl fullWidth>
+              <TextField
+                {...field}
+                error={!!errors.city}
+                helperText={errors.city?.message}
+                id="city"
+                label="City"
+                variant="outlined"
+                fullWidth
+                required
+              />
+            </FormControl>
           )}
         />
         <Controller
           name="state"
           control={control}
           render={({ field }) => (
-            <TextField
-              {...field}
-              error={!!errors.state}
-              helperText={errors.state?.message}
-              id="state"
-              label="State"
-              variant="outlined"
-              fullWidth
-              required
-            />
+            <FormControl fullWidth>
+              <TextField
+                {...field}
+                error={!!errors.state}
+                helperText={errors.state?.message}
+                id="state"
+                label="State"
+                variant="outlined"
+                fullWidth
+                required
+              />
+            </FormControl>
           )}
         />
       </Stack>
@@ -206,24 +229,29 @@ const YourInformation = () => {
         name="phonenumber"
         control={control}
         render={({ field: { ref, ...rest } }) => (
-          <PatternFormat
-            format="(###) ###-####"
-            customInput={TextField}
-            variant="outlined"
-            required
-            id="phonenumber"
-            label="Phone number"
-            error={!!errors.phonenumber}
-            helperText={errors.phonenumber?.message}
-            mask="_"
-            fullWidth
-            inputRef={ref}
-            sx={{ mb: errors.phonenumber ? "9px" : 4 }}
-            {...rest}
-          />
+          <FormControl fullWidth>
+            <PatternFormat
+              format="(###) ###-####"
+              customInput={TextField}
+              variant="outlined"
+              required
+              id="phonenumber"
+              label="Phone number"
+              error={!!errors.phonenumber}
+              helperText={errors.phonenumber?.message}
+              mask="_"
+              fullWidth
+              inputRef={ref}
+              sx={{ mb: errors.phonenumber ? "9px" : 4 }}
+              {...rest}
+            />
+          </FormControl>
         )}
       />
-      <ApplicationButtons handleSubmit={handleSubmit} />
+      <ApplicationButtons
+        handleSubmit={handleSubmit}
+        values={{ information: getValues() }}
+      />
     </Box>
   );
 };

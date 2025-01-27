@@ -6,49 +6,28 @@ import {
   TextField,
   Paper,
   Checkbox,
-  FormGroup,
   FormControlLabel,
   useTheme,
 } from "@mui/material";
 import { PlusIcon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { PatternFormat } from "react-number-format";
 import ApplicationButtons from "../components/ApplicationButtons";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { useApplication } from "../../../../../context/SignupApplication/SignupApplication";
 
 function Experience() {
+  const { userData } = useApplication();
+  const { control, handleSubmit, getValues } = useForm({
+    defaultValues: { experiences: userData?.experiences ?? [] },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "experiences",
+  });
   const theme = useTheme();
-  const parentRef = useRef<HTMLDivElement | null>(null);
-  const [experiences, setExperiences] = useState<
-    Array<{
-      id: string;
-      company: string;
-      title: string;
-      startDate: string;
-      endDate: string;
-      responsibilities: string;
-    }>
-  >([]);
-
-  const addExperience = () => {
-    setExperiences([
-      ...experiences,
-      {
-        id: crypto.randomUUID(),
-        company: "",
-        title: "",
-        startDate: "",
-        endDate: "",
-        responsibilities: "",
-      },
-    ]);
-  };
-
-  const handleRemove = (id: string) => {
-    const filteredExperience = experiences.filter(
-      (experience) => experience.id !== id
-    );
-    setExperiences(filteredExperience);
-  };
+  const parentRef = useRef<HTMLDivElement | null>(null); // need to fix this error?
 
   useEffect(() => {
     const observer = new MutationObserver((mutations) => {
@@ -90,54 +69,100 @@ function Experience() {
       </Typography>
 
       <Stack spacing={3} mt={2} ref={parentRef}>
-        {experiences.map((experience) => (
-          <Paper key={experience.id} component="div" sx={{ padding: 3 }}>
-            <Typography>Id: {experience.id}</Typography>
-            <TextField fullWidth label="Company" margin="normal" />
-            <TextField fullWidth label="Job title" margin="normal" />
+        {fields.map((item, index) => (
+          <Paper key={item.id} component="div" sx={{ padding: 3 }}>
+            <Controller
+              name={`experiences.${index}.company`}
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  label="Company"
+                  margin="normal"
+                />
+              )}
+            />
+            <Controller
+              name={`experiences.${index}.title`}
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  label="Job title"
+                  margin="normal"
+                />
+              )}
+            />
             <Stack
               direction={{ xs: "column", md: "row" }}
               columnGap={2}
               alignItems={{ md: "center" }}
             >
-              <PatternFormat
-                format="##/##/####"
-                customInput={TextField}
-                variant="outlined"
-                label="Start date"
-                mask="_"
-                margin="normal"
+              <Controller
+                name={`experiences.${index}.startDate`}
+                control={control}
+                render={({ field }) => (
+                  <PatternFormat
+                    {...field}
+                    format="##/##/####"
+                    customInput={TextField}
+                    variant="outlined"
+                    label="Start date"
+                    mask="_"
+                    margin="normal"
+                  />
+                )}
               />
               <Stack direction="row" alignItems="center" columnGap={{ md: 2 }}>
-                <PatternFormat
-                  format="##/##/####"
-                  customInput={TextField}
-                  variant="outlined"
-                  label="End date"
-                  mask="_"
-                  margin="normal"
+                <Controller
+                  name={`experiences.${index}.endDate`}
+                  control={control}
+                  render={({ field }) => (
+                    <PatternFormat
+                      {...field}
+                      format="##/##/####"
+                      customInput={TextField}
+                      variant="outlined"
+                      label="End date"
+                      mask="_"
+                      margin="normal"
+                    />
+                  )}
                 />
-                <FormGroup>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Present"
-                    labelPlacement="bottom"
-                  />
-                </FormGroup>
+                <Controller
+                  name={`experiences.${index}.present`}
+                  control={control}
+                  render={({ field }) => (
+                    <FormControlLabel
+                      control={<Checkbox {...field} />}
+                      label="Present"
+                      labelPlacement="bottom"
+                    />
+                  )}
+                />
               </Stack>
             </Stack>
-            <TextField
-              fullWidth
-              label="Responsibilities"
-              margin="normal"
-              multiline
-              rows={14}
+            <Controller
+              name={`experiences.${index}.description`}
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  fullWidth
+                  label="Description"
+                  margin="normal"
+                  multiline
+                  rows={14}
+                />
+              )}
             />
             <Button
               variant="outlined"
               color="error"
               fullWidth
-              onClick={() => handleRemove(experience.id)}
+              onClick={() => remove(index)}
             >
               Remove
             </Button>
@@ -148,12 +173,23 @@ function Experience() {
         variant="text"
         {...(theme.palette.mode === "dark" && { color: "secondary" })}
         startIcon={<PlusIcon />}
-        onClick={addExperience}
+        onClick={() =>
+          append({
+            company: "",
+            title: "",
+            startDate: "",
+            endDate: "",
+            description: "",
+          })
+        }
         sx={{ marginTop: 2 }}
       >
         Add experience
       </Button>
-      <ApplicationButtons />
+      <ApplicationButtons
+        handleSubmit={handleSubmit}
+        values={{ ...getValues() }}
+      />
     </Box>
   );
 }

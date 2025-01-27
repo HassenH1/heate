@@ -7,19 +7,24 @@ import {
 } from "@mui/material";
 import { cities } from "./lib/cities";
 import ApplicationButtons from "../components/ApplicationButtons";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./lib/schema";
+import { useApplication } from "../../../../../context/SignupApplication/SignupApplication";
 
 const Locations = () => {
+  const { userData } = useApplication();
   const {
     control,
     handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: { locations: [] },
+    values: { locations: userData.locations },
   });
+  useWatch({ control }); // This is used for getValues to have latest values
 
   return (
     <Box
@@ -42,50 +47,59 @@ const Locations = () => {
         <Controller
           name="locations"
           control={control}
-          defaultValue={[]}
-          render={({ field }) => (
-            <Autocomplete
-              multiple
-              options={cities}
-              disableCloseOnSelect
-              onChange={(_, data) => field.onChange(data)}
-              renderOption={(props, option, { selected }) => {
-                const { key, ...optionProps } = props;
-                const handleOnChangeCheckbox = () => {
-                  const newSelectedOptions = selected
-                    ? field.value?.filter((item) => {
-                        return item.label !== option.label;
-                      })
-                    : [...(field.value as []), option];
+          render={({ field }) => {
+            return (
+              <Autocomplete
+                {...field}
+                multiple
+                options={cities}
+                disableCloseOnSelect
+                onChange={(_, data) => {
+                  field.onChange(data);
+                }}
+                renderOption={(props, option, { selected }) => {
+                  const { key, ...optionProps } = props;
 
-                  field.onChange(newSelectedOptions);
-                };
-                return (
-                  <li key={key} {...optionProps}>
-                    <Checkbox
-                      style={{ marginRight: 8 }}
-                      checked={selected}
-                      onChange={handleOnChangeCheckbox}
-                    />
-                    {option.label}
-                  </li>
-                );
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="City"
-                  placeholder="Search..."
-                  error={!!errors.locations}
-                  helperText={errors.locations?.message}
-                  sx={{ mb: errors.locations ? "9px" : 4 }}
-                />
-              )}
-            />
-          )}
+                  const handleOnChangeCheckbox = () => {
+                    const newSelectedOptions = selected
+                      ? field.value?.filter((item) => {
+                          return item.label !== option.label;
+                        })
+                      : [...(field.value as []), option];
+
+                    field.onChange(newSelectedOptions);
+                  };
+                  return (
+                    <li key={key} {...optionProps}>
+                      <Checkbox
+                        style={{ marginRight: 8 }}
+                        checked={selected}
+                        onChange={handleOnChangeCheckbox}
+                      />
+                      {option.label}
+                    </li>
+                  );
+                }}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="City"
+                    placeholder="Search..."
+                    error={!!errors.locations}
+                    helperText={errors.locations?.message}
+                    sx={{ mb: errors.locations ? "9px" : 4 }}
+                  />
+                )}
+              />
+            );
+          }}
         />
       </Box>
-      <ApplicationButtons handleSubmit={handleSubmit} />
+      <ApplicationButtons
+        handleSubmit={handleSubmit}
+        values={{ ...getValues() }}
+      />
     </Box>
   );
 };
