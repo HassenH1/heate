@@ -11,9 +11,9 @@ import {
   ProfessionalSignup,
   Application,
   Signup,
+  Dashboard,
 } from "./pages";
 import { useThemePaletteMode } from "./context/ThemePaletteMode/ThemePaletteMode";
-import Dashboard from "./pages/Dashboard/Dashboard";
 import { SignupApplicationProvider } from "./context/SignupApplication/SignupApplication";
 
 const router = createBrowserRouter(

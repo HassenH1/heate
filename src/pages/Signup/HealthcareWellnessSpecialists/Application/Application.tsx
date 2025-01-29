@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Grid2 as Grid,
-  Paper,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, Button, Grid2 as Grid, Paper, useTheme } from "@mui/material";
 import Stepper from "./components/Stepper";
 import { YourInformation } from "./YourInformation/YourInformation";
 import Error from "./components/Error";
@@ -16,6 +9,7 @@ import LicensesCertifactions from "./LicensesCertifactions/LicensesCertifactions
 import Logo from "../../../../components/logo/Logo";
 import { Link } from "react-router-dom";
 import { useApplication } from "../../../../context/SignupApplication/SignupApplication";
+import FinishedApplication from "./FinishedApplication/FinishedApplication";
 
 const Application = () => {
   const theme = useTheme();
@@ -34,25 +28,7 @@ const Application = () => {
       case 4:
         return <LicensesCertifactions />;
       case 5:
-        return (
-          <Box border="1px solid red" height="100%">
-            <Typography variant="body1">
-              Gotta come up with better design here
-            </Typography>
-            <Typography
-              variant="h3"
-              align="center"
-              fontWeight={700}
-              gutterBottom
-            >
-              Congrats!!!
-            </Typography>
-            <Typography variant="body1">
-              We are going to review your application and contact you if we have
-              any questions
-            </Typography>
-          </Box>
-        );
+        return <FinishedApplication />;
       default:
         return <Error />;
     }

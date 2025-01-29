@@ -1,5 +1,7 @@
 function Dashboard() {
-  return <div>Dashboard</div>;
+  return (
+    <div style={{ height: "100%", border: "1px solid red" }}>Dashboard</div>
+  );
 }
 
-export default Dashboard;
+export { Dashboard };

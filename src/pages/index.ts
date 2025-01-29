@@ -5,3 +5,5 @@ export { ProfessionalSignup } from './Signup/HealthcareWellnessSpecialists/Profe
 export { FacilitySignup } from './Signup/MedicalFacility/FacilitySignup'
 export { Application } from './Signup/HealthcareWellnessSpecialists/Application/Application'
 export { YourInformation } from './Signup/HealthcareWellnessSpecialists/Application/YourInformation/YourInformation'
+
+export { Dashboard } from './Dashboard/Dashboard'
