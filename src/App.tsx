@@ -2,6 +2,7 @@ import { CircularProgress, CssBaseline, ThemeProvider } from "@mui/material";
 import {
   createBrowserRouter,
   Navigate,
+  Outlet,
   RouterProvider,
 } from "react-router-dom";
 import Layout from "./components/layout/Layout";
@@ -24,11 +25,25 @@ const router = createBrowserRouter(
         { index: true, element: <Navigate to="/login" replace /> },
         { path: "login", element: <Login /> },
         {
-          path: "dashboard",
-          Component: Layout,
+          element: (
+            <>
+              <Outlet />
+            </>
+          ),
           children: [
-            { index: true, element: <Dashboard /> },
-            { path: "settings", element: <div>Settings page</div> },
+            {
+              element: <Layout />,
+              children: [
+                { path: "/dashboard", element: <Dashboard /> },
+                { path: "/findjobs", element: <div>Find jobs</div> },
+                { path: "/myshift", element: <div>My shift</div> },
+                { path: "/myassignments", element: <div>My assignments</div> },
+                { path: "/timesheet", element: <div>Timesheet</div> },
+                { path: "/earnings", element: <div>Earnings</div> },
+                { path: "/account", element: <div>Account</div> },
+                { path: "/settings", element: <div>Settings</div> },
+              ],
+            },
           ],
         },
         {
@@ -54,6 +69,10 @@ const router = createBrowserRouter(
           ],
         },
       ],
+    },
+    {
+      path: "*",
+      element: <div>Not found!</div>,
     },
   ],
   {

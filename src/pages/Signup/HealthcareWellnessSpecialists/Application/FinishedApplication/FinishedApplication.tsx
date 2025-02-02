@@ -1,7 +1,15 @@
-import { Box, Button, Stack, Typography, Link as MuiLink } from "@mui/material";
+import {
+  Box,
+  Button,
+  Stack,
+  Typography,
+  Link as MuiLink,
+  useMediaQuery,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 
 function FinishedApplication() {
+  const matches = useMediaQuery((theme) => theme.breakpoints.up("md"));
   return (
     <Box height="100%" paddingTop={4}>
       <Stack
@@ -9,13 +17,14 @@ function FinishedApplication() {
         margin="auto"
         spacing={4}
         alignItems="center"
+        paddingX={4}
       >
         <Typography variant="h4" component="h3" fontWeight={700} gutterBottom>
           All done!
         </Typography>
         <img
           src="https://plus.unsplash.com/premium_vector-1723274509659-76653ce3a729?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          width={350}
+          width={matches ? 350 : 200}
         />
         <Stack spacing={2}>
           <Typography>
