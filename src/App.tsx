@@ -13,6 +13,7 @@ import {
   Application,
   Signup,
   Dashboard,
+  FindJobs,
 } from "./pages";
 import { useThemePaletteMode } from "./context/ThemePaletteMode/ThemePaletteMode";
 import { SignupApplicationProvider } from "./context/SignupApplication/SignupApplication";
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
         {
           element: (
             <>
+              {/* Put Auth state management here */}
               <Outlet />
             </>
           ),
@@ -35,7 +37,7 @@ const router = createBrowserRouter(
               element: <Layout />,
               children: [
                 { path: "/dashboard", element: <Dashboard /> },
-                { path: "/findjobs", element: <div>Find jobs</div> },
+                { path: "/findjobs", element: <FindJobs /> },
                 { path: "/myshift", element: <div>My shift</div> },
                 { path: "/myassignments", element: <div>My assignments</div> },
                 { path: "/timesheet", element: <div>Timesheet</div> },

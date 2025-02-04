@@ -15,6 +15,7 @@ import {
   Tooltip,
   Typography,
   Link as MuiLink,
+  Stack,
 } from "@mui/material";
 import { useState } from "react";
 import { Menu as MenuIcon } from "lucide-react";
@@ -53,13 +54,21 @@ function Navbar() {
     setAnchorElUser(null);
   };
 
-  const handleDrawerToggle = () => {
-    setMobileOpen((prevState) => !prevState);
+  const greet = () => {
+    const hours = new Date().getHours();
+
+    if (hours < 12) {
+      return "Good morning";
+    } else if (hours < 18) {
+      return "Good afternoon";
+    } else {
+      return "Good evening";
+    }
   };
 
   const drawer = (
     <>
-      <Box onClick={handleDrawerToggle}>
+      <Box onClick={() => setMobileOpen(false)}>
         <List>
           {navItems.map(({ icon, text }) => (
             <ListItem key={text} disablePadding>
@@ -113,20 +122,23 @@ function Navbar() {
             color="inherit"
             aria-label="open drawer"
             edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
+            onClick={() => setMobileOpen(true)}
+            sx={{ mr: { md: 2 }, display: { sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar
-                  alt="heate health"
-                  src="https://avatar.iran.liara.run/public"
-                />
-              </IconButton>
-            </Tooltip>
+          <Box>
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <Typography>{greet()}, Hassen</Typography>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar
+                    alt="heate health"
+                    src="https://avatar.iran.liara.run/public"
+                  />
+                </IconButton>
+              </Tooltip>
+            </Stack>
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
@@ -168,7 +180,7 @@ function Navbar() {
         <Drawer
           variant="temporary"
           open={mobileOpen}
-          onClose={handleDrawerToggle}
+          onClose={() => setMobileOpen(false)}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
           }}

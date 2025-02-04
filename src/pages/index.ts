@@ -7,3 +7,4 @@ export { Application } from './Signup/HealthcareWellnessSpecialists/Application/
 export { YourInformation } from './Signup/HealthcareWellnessSpecialists/Application/YourInformation/YourInformation'
 
 export { Dashboard } from './Dashboard/Dashboard'
+export { FindJobs } from './FindJobs/FindJobs'

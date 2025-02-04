@@ -4,14 +4,15 @@ import Navbar, { drawerWidth } from "./Navbar";
 import { Box, IconButton, Toolbar } from "@mui/material";
 import { MessageCircle } from "lucide-react";
 
-// @todo change navbar to be on the side
 const Layout = () => {
   return (
-    <Box display="flex" flexGrow={1} position="relative">
+    <Box display="flex" flexDirection="row" flexGrow={1}>
       <Navbar />
       <Box
+        display="flex"
+        flexDirection="column"
         flexGrow={1}
-        p={3}
+        pt={3}
         width={{ sm: `calc(100% - ${drawerWidth}px)` }}
         component="main"
       >
@@ -22,7 +23,7 @@ const Layout = () => {
       <IconButton
         size="large"
         onClick={() => {}}
-        sx={{ position: "absolute", bottom: 20, right: 10 }}
+        sx={{ position: "fixed", zIndex: 9999, bottom: 20, right: 10 }}
       >
         <MessageCircle size={35} />
       </IconButton>
