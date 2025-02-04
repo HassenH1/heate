@@ -35,7 +35,7 @@ const Application = () => {
   };
 
   return (
-    <Grid container height="100%">
+    <Grid container height="100%" flexGrow={1}>
       <Grid
         size={{ md: 3 }}
         padding={2}
@@ -94,3 +94,59 @@ const Application = () => {
 };
 
 export { Application };
+
+// <Grid container height="100%">
+// <Grid
+//   size={{ md: 3 }}
+//   padding={2}
+//   display={{ xs: "none", md: "block" }}
+//   maxHeight="100%"
+// >
+//   <Paper
+//     component={Box}
+//     height="100%"
+//     padding={2}
+//     display="flex"
+//     flexDirection="column"
+//     justifyContent="space-between"
+//     elevation={2}
+//     sx={{
+//       backgroundColor:
+//         theme.palette.mode === "light" ? "#F9FAFC" : undefined,
+//     }}
+//   >
+//     <Box flexGrow={1} display="flex" flexDirection="column">
+//       <Box
+//         sx={{
+//           ...(theme.palette.mode === "dark" && {
+//             filter: "brightness(0) invert(1)",
+//           }),
+//         }}
+//         maxWidth={200}
+//         // marginBottom={5}
+//       >
+//         <Logo />
+//       </Box>
+//       <Box flexGrow={1} display="flex" alignItems="center">
+//         <Stepper activeStep={activeStep} />
+//       </Box>
+//     </Box>
+//     <Button
+//       variant="outlined"
+//       {...(theme.palette.mode === "dark" && { color: "secondary" })}
+//       component={Link}
+//       to="/login"
+//     >
+//       Already have an account?
+//     </Button>
+//   </Paper>
+// </Grid>
+// <Grid
+//   container
+//   size={{ xs: 12, md: 9 }}
+//   sx={{ height: "100%", overflowX: "auto" }}
+//   direction="column"
+// >
+//   {renderApplicationFlow()}
+// </Grid>
+// </Grid>
