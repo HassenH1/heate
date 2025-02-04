@@ -23,7 +23,13 @@ const Layout = () => {
       <IconButton
         size="large"
         onClick={() => {}}
-        sx={{ position: "fixed", zIndex: 9999, bottom: 20, right: 10 }}
+        sx={{
+          position: "fixed",
+          zIndex: 9999,
+          bottom: 20,
+          right: 10,
+          display: { xs: "none", md: "block" },
+        }}
       >
         <MessageCircle size={35} />
       </IconButton>
