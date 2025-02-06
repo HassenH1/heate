@@ -157,6 +157,7 @@ function Navbar() {
             >
               {settings.map((setting) => (
                 <MuiLink
+                  key={setting}
                   component={Link}
                   to={`/${setting.toLowerCase()}`}
                   underline="none"
