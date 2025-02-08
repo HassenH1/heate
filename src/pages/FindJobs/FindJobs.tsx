@@ -17,7 +17,13 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
-import { MapPin, SlidersHorizontal } from "lucide-react";
+import {
+  MapPin,
+  SlidersHorizontal,
+  Building2,
+  CalendarDays,
+  Clock,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const Filters = () => {
@@ -53,7 +59,8 @@ const Filters = () => {
 function FindJobs() {
   const theme = useTheme();
   const [top, setTop] = useState(0);
-  const [open, setOpen] = useState(false);
+  const [openFilterModal, setOpenFilterModal] = useState(false);
+  const [openDetailModal, setOpenDetailModal] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
@@ -92,32 +99,63 @@ function FindJobs() {
                   marginBottom: 3,
                 }}
               >
-                <CardActionArea sx={{ paddingX: { md: 2 } }}>
+                <CardActionArea
+                  sx={{ paddingX: { md: 2 } }}
+                  onClick={() => setOpenDetailModal(true)}
+                >
                   <CardContent>
                     <Typography
                       align="right"
                       variant="subtitle2"
-                      sx={{ color: "text.secondary" }}
+                      color="success"
+                      fontWeight={750}
                     >
-                      Just now
+                      $203
                     </Typography>
                     <Typography component="div" variant="h5" fontWeight={700}>
-                      Digital Marketing
+                      Certified Nurse Assistant {idx}
                     </Typography>
-                    <Stack
-                      direction="row"
-                      alignItems="center"
-                      spacing={0.5}
-                      mb={2}
-                    >
-                      <MapPin size={15} />
-                      <Typography
-                        variant="subtitle1"
-                        component="div"
-                        sx={{ color: "text.secondary" }}
-                      >
-                        Los Angeles
-                      </Typography>
+                    <Stack mb={2}>
+                      <Box display="flex" alignItems="center" columnGap={1}>
+                        <MapPin size={15} />
+                        <Typography
+                          variant="subtitle1"
+                          component="div"
+                          sx={{ color: "text.secondary" }}
+                        >
+                          Los Angeles 90018
+                        </Typography>
+                      </Box>
+                      <Box display="flex" alignItems="center" columnGap={1}>
+                        <Building2 size={15} />
+                        <Typography
+                          variant="subtitle1"
+                          component="div"
+                          sx={{ color: "text.secondary" }}
+                        >
+                          Skilled Nursing Facility Care
+                        </Typography>
+                      </Box>
+                      <Box display="flex" alignItems="center" columnGap={1}>
+                        <CalendarDays size={15} />
+                        <Typography
+                          variant="subtitle1"
+                          component="div"
+                          sx={{ color: "text.secondary" }}
+                        >
+                          Saturday, 11/30/25
+                        </Typography>
+                      </Box>
+                      <Box display="flex" alignItems="center" columnGap={1}>
+                        <Clock size={15} />
+                        <Typography
+                          variant="subtitle1"
+                          component="div"
+                          sx={{ color: "text.secondary" }}
+                        >
+                          9:00am - 5:00pm (8 hrs)
+                        </Typography>
+                      </Box>
                     </Stack>
                     <Typography variant="body2" color="text.secondary" mb={2}>
                       We are a team of founders operators, and angel investors
@@ -139,7 +177,7 @@ function FindJobs() {
       </Stack>
       <IconButton
         size="small"
-        onClick={() => setOpen(true)}
+        onClick={() => setOpenFilterModal(true)}
         sx={{
           position: "fixed",
           zIndex: 99,
@@ -155,18 +193,18 @@ function FindJobs() {
       {isMobile && (
         <Drawer
           anchor="bottom"
-          open={open}
-          onClose={() => setOpen(false)}
+          open={openFilterModal}
+          onClose={() => setOpenFilterModal(false)}
           sx={{ zIndex: 100 }}
         >
-          <Card>
+          <Card sx={{ paddingBottom: 1 }}>
             <Filters />
             <CardActions>
               <Button
                 size="small"
                 fullWidth
                 variant="contained"
-                onClick={() => setOpen(false)}
+                onClick={() => setOpenFilterModal(false)}
               >
                 Clear all
               </Button>
@@ -174,7 +212,7 @@ function FindJobs() {
                 size="small"
                 fullWidth
                 variant="contained"
-                onClick={() => setOpen(false)}
+                onClick={() => setOpenFilterModal(false)}
               >
                 Apply
               </Button>
@@ -182,6 +220,15 @@ function FindJobs() {
           </Card>
         </Drawer>
       )}
+      <Drawer
+        anchor={isMobile ? "left" : "right"}
+        open={openDetailModal}
+        onClose={() => setOpenDetailModal(false)}
+        sx={{ zIndex: 3000 }}
+        PaperProps={{ sx: { width: { xs: "80%", md: "50%" } } }}
+      >
+        Job details go here
+      </Drawer>
     </>
   );
 }
