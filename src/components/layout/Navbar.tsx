@@ -33,12 +33,12 @@ import Logo from "../logo/Logo";
 // export const drawerWidth = 200;
 export const drawerWidth = 240;
 const navItems = [
-  { icon: <House />, text: "Dashboard" },
-  { icon: <Briefcase />, text: "Find jobs" },
-  { icon: <ClockAlert />, text: "My shift" },
-  { icon: <NotebookText />, text: "My assignments" },
-  { icon: <FileClock />, text: "Timesheet" },
-  { icon: <HandCoins />, text: "Earnings" },
+  { icon: <House size={20} />, text: "Dashboard" },
+  { icon: <Briefcase size={20} />, text: "Find jobs" },
+  { icon: <ClockAlert size={20} />, text: "My shift" },
+  { icon: <NotebookText size={20} />, text: "My assignments" },
+  { icon: <FileClock size={20} />, text: "Timesheet" },
+  { icon: <HandCoins size={20} />, text: "Earnings" },
 ];
 const settings = ["Account", "Settings", "Logout"];
 

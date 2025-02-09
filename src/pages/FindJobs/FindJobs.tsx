@@ -12,49 +12,89 @@ import {
   useMediaQuery,
   Drawer,
   Button,
-  Divider,
-  Slider,
-  Checkbox,
-  FormControlLabel,
 } from "@mui/material";
-import {
-  MapPin,
-  SlidersHorizontal,
-  Building2,
-  CalendarDays,
-  Clock,
-} from "lucide-react";
+import { MapPin, SlidersHorizontal, CalendarDays, Clock } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import Filters from "./components/Filters";
 
-const Filters = () => {
-  const [sliderVal, setSliderVal] = useState(10);
-  return (
-    <CardContent>
-      <Typography fontWeight={600} gutterBottom>
-        Distance {`(${sliderVal} mi)`}
-      </Typography>
-      <Slider
-        size="small"
-        defaultValue={10}
-        valueLabelDisplay="auto"
-        value={sliderVal}
-        onChange={(_, value) => setSliderVal(value as number)}
-        step={5}
-        min={5}
-        max={100}
-        sx={{ color: "inherit" }}
-      />
-      <Divider sx={{ marginTop: 1, marginBottom: 2 }} />
-      <Typography fontWeight={600} gutterBottom>
-        Job category
-      </Typography>
-      <FormControlLabel control={<Checkbox defaultChecked />} label="Label" />
-      <FormControlLabel control={<Checkbox defaultChecked />} label="Label" />
-      <FormControlLabel control={<Checkbox defaultChecked />} label="Label" />
-      <FormControlLabel control={<Checkbox defaultChecked />} label="Label" />
-    </CardContent>
-  );
-};
+const JobDetailsCard = ({
+  toggleDetailModal,
+  idx,
+}: {
+  toggleDetailModal: () => void;
+  idx: number;
+}) => (
+  <Card
+    key={idx}
+    sx={{
+      display: "flex",
+      flexDirection: "column",
+      minHeight: "fit-content",
+      maxHeight: 240,
+      marginBottom: 3,
+    }}
+  >
+    <CardActionArea sx={{ paddingX: { md: 2 } }} onClick={toggleDetailModal}>
+      <CardContent>
+        <Typography
+          align="right"
+          variant="subtitle2"
+          color="success"
+          fontWeight={750}
+        >
+          $203
+        </Typography>
+        <Typography component="div" variant="h5" fontWeight={700}>
+          Certified Nurse Assistant {idx}
+        </Typography>
+        <Stack mb={2}>
+          <Box display="flex" alignItems="center" columnGap={1}>
+            <MapPin size={15} />
+            <Typography
+              variant="subtitle1"
+              component="div"
+              sx={{ color: "text.secondary" }}
+            >
+              Los Angeles 90018
+            </Typography>
+          </Box>
+          <Box display="flex" alignItems="center" columnGap={1}>
+            <CalendarDays size={15} />
+            <Typography
+              variant="subtitle1"
+              component="div"
+              sx={{ color: "text.secondary" }}
+            >
+              Saturday, 11/30/25
+            </Typography>
+          </Box>
+          <Box display="flex" alignItems="center" columnGap={1}>
+            <Clock size={15} />
+            <Typography
+              variant="subtitle1"
+              component="div"
+              sx={{ color: "text.secondary" }}
+            >
+              9:00am - 5:00pm (8 hrs)
+            </Typography>
+          </Box>
+        </Stack>
+        <Typography variant="body2" color="text.secondary" mb={2}>
+          We are a team of founders operators, and angel investors who have
+          built, scaled and successfully exited startups. We use our combined
+          knowledge and experience to be a value add to the founders we invest
+          in.
+        </Typography>
+        <Chip
+          label={idx % 3 === 0 ? "Per diem" : "Assignment"}
+          color="success"
+          variant="outlined"
+          sx={{ borderRadius: 0 }}
+        />
+      </CardContent>
+    </CardActionArea>
+  </Card>
+);
 
 function FindJobs() {
   const theme = useTheme();
@@ -63,6 +103,8 @@ function FindJobs() {
   const [openDetailModal, setOpenDetailModal] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
+
+  const toggleDetailModal = () => setOpenDetailModal((prev) => !prev);
 
   useEffect(() => {
     if (containerRef.current)
@@ -74,7 +116,7 @@ function FindJobs() {
       <Stack spacing={1} direction={{ xs: "column", md: "row" }} px={{ md: 3 }}>
         <Box
           ref={containerRef}
-          height={500}
+          height="fit-content"
           width={400}
           px={{ xs: 2, md: 0 }}
           position="sticky"
@@ -89,89 +131,7 @@ function FindJobs() {
           {Array(10)
             .fill(null)
             .map((_, idx) => (
-              <Card
-                key={idx}
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  minHeight: "fit-content",
-                  maxHeight: 240,
-                  marginBottom: 3,
-                }}
-              >
-                <CardActionArea
-                  sx={{ paddingX: { md: 2 } }}
-                  onClick={() => setOpenDetailModal(true)}
-                >
-                  <CardContent>
-                    <Typography
-                      align="right"
-                      variant="subtitle2"
-                      color="success"
-                      fontWeight={750}
-                    >
-                      $203
-                    </Typography>
-                    <Typography component="div" variant="h5" fontWeight={700}>
-                      Certified Nurse Assistant {idx}
-                    </Typography>
-                    <Stack mb={2}>
-                      <Box display="flex" alignItems="center" columnGap={1}>
-                        <MapPin size={15} />
-                        <Typography
-                          variant="subtitle1"
-                          component="div"
-                          sx={{ color: "text.secondary" }}
-                        >
-                          Los Angeles 90018
-                        </Typography>
-                      </Box>
-                      <Box display="flex" alignItems="center" columnGap={1}>
-                        <Building2 size={15} />
-                        <Typography
-                          variant="subtitle1"
-                          component="div"
-                          sx={{ color: "text.secondary" }}
-                        >
-                          Skilled Nursing Facility Care
-                        </Typography>
-                      </Box>
-                      <Box display="flex" alignItems="center" columnGap={1}>
-                        <CalendarDays size={15} />
-                        <Typography
-                          variant="subtitle1"
-                          component="div"
-                          sx={{ color: "text.secondary" }}
-                        >
-                          Saturday, 11/30/25
-                        </Typography>
-                      </Box>
-                      <Box display="flex" alignItems="center" columnGap={1}>
-                        <Clock size={15} />
-                        <Typography
-                          variant="subtitle1"
-                          component="div"
-                          sx={{ color: "text.secondary" }}
-                        >
-                          9:00am - 5:00pm (8 hrs)
-                        </Typography>
-                      </Box>
-                    </Stack>
-                    <Typography variant="body2" color="text.secondary" mb={2}>
-                      We are a team of founders operators, and angel investors
-                      who have built, scaled and successfully exited startups.
-                      We use our combined knowledge and experience to be a value
-                      add to the founders we invest in.
-                    </Typography>
-                    <Chip
-                      label="Full Time"
-                      color="success"
-                      variant="outlined"
-                      sx={{ borderRadius: 0 }}
-                    />
-                  </CardContent>
-                </CardActionArea>
-              </Card>
+              <JobDetailsCard idx={idx} toggleDetailModal={toggleDetailModal} />
             ))}
         </Box>
       </Stack>
@@ -206,7 +166,7 @@ function FindJobs() {
                 variant="contained"
                 onClick={() => setOpenFilterModal(false)}
               >
-                Clear all
+                Reset
               </Button>
               <Button
                 size="small"
