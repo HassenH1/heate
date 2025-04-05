@@ -8,12 +8,13 @@ import {
 import Layout from "./components/layout/Layout";
 import {
   FacilitySignup,
-  Login,
   ProfessionalSignup,
   Application,
   Signup,
   Dashboard,
   FindJobs,
+  MyShifts,
+  Login,
 } from "./pages";
 import { useThemePaletteMode } from "./context/ThemePaletteMode/ThemePaletteMode";
 import { SignupApplicationProvider } from "./context/SignupApplication/SignupApplication";
@@ -23,8 +24,11 @@ const router = createBrowserRouter(
     {
       path: "/",
       children: [
-        { index: true, element: <Navigate to="/login" replace /> },
-        { path: "login", element: <Login /> },
+        { index: true, element: <Navigate to="/login" replace /> }, // original
+        {
+          path: "login",
+          element: <Login />,
+        },
         {
           element: (
             <>
@@ -38,7 +42,7 @@ const router = createBrowserRouter(
               children: [
                 { path: "/dashboard", element: <Dashboard /> },
                 { path: "/findjobs", element: <FindJobs /> },
-                { path: "/myshift", element: <div>My shift</div> },
+                { path: "/myshifts", element: <MyShifts /> },
                 { path: "/myassignments", element: <div>My assignments</div> },
                 { path: "/timesheet", element: <div>Timesheet</div> },
                 { path: "/earnings", element: <div>Earnings</div> },

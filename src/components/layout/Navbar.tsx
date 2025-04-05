@@ -23,7 +23,7 @@ import {
   House,
   Briefcase,
   ClockAlert,
-  NotebookText,
+  // NotebookText,
   FileClock,
   HandCoins,
 } from "lucide-react";
@@ -35,8 +35,8 @@ export const drawerWidth = 240;
 const navItems = [
   { icon: <House size={20} />, text: "Dashboard" },
   { icon: <Briefcase size={20} />, text: "Find jobs" },
-  { icon: <ClockAlert size={20} />, text: "My shift" },
-  { icon: <NotebookText size={20} />, text: "My assignments" },
+  { icon: <ClockAlert size={20} />, text: "My shifts" },
+  // { icon: <NotebookText size={20} />, text: "My assignments" },
   { icon: <FileClock size={20} />, text: "Timesheet" },
   { icon: <HandCoins size={20} />, text: "Earnings" },
 ];
@@ -90,6 +90,7 @@ function Navbar() {
                         textDecorationColor: "#0098DB",
                         textDecorationThickness: 3,
                         textDecorationSkipInk: "none",
+                        textUnderlineOffset: "5px",
                       }}
                     />
                   </ListItemButton>

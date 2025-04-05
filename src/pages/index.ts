@@ -8,3 +8,4 @@ export { YourInformation } from './Signup/HealthcareWellnessSpecialists/Applicat
 
 export { Dashboard } from './Dashboard/Dashboard'
 export { FindJobs } from './FindJobs/FindJobs'
+export { MyShifts } from './MyShifts/MyShifts'
